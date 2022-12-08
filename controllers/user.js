@@ -2,7 +2,8 @@ const { UnauthenticatedError } = require("../library/errors");
 const requestResponseWrapper = require("../library/RequestResponseWrapper");
 
 async function createUser(context) {
-  throw new UnauthenticatedError("Please login to continue.")
+  // const res = [].show();
+  // throw new UnauthenticatedError("Please login to continue.")
   return context;
 }
 
@@ -19,7 +20,7 @@ async function deleteUserById(context) {
 }
 
 async function login(context) {
-  
+
 }
 
 module.exports = {
