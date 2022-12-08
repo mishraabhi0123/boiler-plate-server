@@ -1,10 +1,14 @@
-const { UnauthenticatedError } = require("../library/errors");
 const requestResponseWrapper = require("../library/RequestResponseWrapper");
+const { validateInput } = require("../library/utilities");
+const { createUserInput } = require("../validators/user");
+const db = require("../database");
 
 async function createUser(context) {
-  // const res = [].show();
-  // throw new UnauthenticatedError("Please login to continue.")
-  return context;
+  const userData = context.body;
+  validateInput(createUserInput, userData);
+  const user = new db.User(userData);
+  await user.save();
+  return "User created successfully";
 }
 
 async function updateUserById(context) {

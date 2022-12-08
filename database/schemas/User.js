@@ -12,9 +12,26 @@ const User = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
     min: [5, "Email should be atleast 5 characters"],
     max: [50, "Email cannot be more than 50 characters"]
-  }
+  },
+
+  password: {
+    type: String,
+    required: true,
+  },
+  
+  active: {
+    type: Boolean,
+    default: true,
+  },
+
+  createdAt: {
+    type: Date,
+    required: true,
+    default: new Date(),
+  },
 })
 
 module.exports = User
