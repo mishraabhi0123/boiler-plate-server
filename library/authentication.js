@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const moment =  require("moment-timezone");
-const { DATE_TIME_FORMAT } = require("../constants");
 const { UnauthorizedError } = require("./errors");
 
 function createToken(user) {
@@ -23,6 +22,14 @@ function decodePayload(token) {
   } catch(err) {
     throw new UnauthorizedError("Invalid token");
   }
+}
+
+async function isBlackListed(token) {
+
+}
+
+async function blackList(token) {
+
 }
 
 module.exports = {

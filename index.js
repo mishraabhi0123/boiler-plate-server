@@ -2,12 +2,15 @@ require("dotenv").config();
 const db = require("./database");
 const express = require("express");
 const initRoutes = require("./routes");
-const morgan = require("morgan")
+const morgan = require("morgan");
+const redisClient = require("./cache");
 
 async function start() {
   db.connect(process.env.MONGODB_URL)
-  .then(() => console.log("Successfully connected to database"))
-  .catch((err) => console.log("Could not connect to database - ", err.message))
+  .then(() => console.log("Database connected"))
+
+  redisClient.connect()
+  .then(() => console.log("Redis client connected"))
 
   const app = express();
   app.use(express.json());
