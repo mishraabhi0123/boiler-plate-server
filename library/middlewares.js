@@ -1,3 +1,4 @@
+const moment = require("moment-timezone");
 const { getUserById } = require("../controllers/user");
 const { decodePayload } = require("./authentication");
 const { UnauthenticatedError, UnauthorizedError } = require("./errors");
@@ -11,16 +12,18 @@ async function auth(req, res, next) {
       throw new UnauthenticatedError("Unauthenticated request. Token not provided.")
     }
     const tokenParts =  authorization.split(' ');
-    if (!tokenParts.length !== 2 ) {
+    if (tokenParts.length !== 2 ) {
       throw new UnauthenticatedError("Invalid token provided");
     }
     
     const token = tokenParts[1];
     const payload = decodePayload(token);
-    const { userId, email, validTill } = payload;
-    if (moment(validTill) < moment()) {
+    const { userId, validTill } = payload;
+
+    if (moment(validTill).format() < moment().format()) {
       throw new UnauthorizedError("Token expired login again");
     }
+
     const user = await getUserById(userId);
     req.context = { ...req.context, User: user };
     return next();

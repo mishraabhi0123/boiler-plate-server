@@ -1,5 +1,4 @@
 const db = require("../database");
-const requestResponseWrapper = require("../library/RequestResponseWrapper");
 const { validateInput } = require("../library/utilities");
 const { createUserInput, loginInput } = require("../validators/user");
 const { BadRequestError } = require("../library/errors");
@@ -34,7 +33,7 @@ async function updateUserById(context) {
   return context;
 }
 
-async function getUserById(context) {
+async function getUser(context) {
   return context;
 }
 
@@ -47,14 +46,15 @@ async function getUserById(userId) {
     throw new BadRequestError("Invalid userId");
   }
 
-  const user = await db.User.findById({ _id: userId });
+  const user = await db.User.findById(userId);
   return user;
 }
 
 module.exports = {
-  createUser: requestResponseWrapper(createUser),
-  login: requestResponseWrapper(login),
-  updateUserById: requestResponseWrapper(updateUserById),
-  getUserById: requestResponseWrapper(getUserById),
-  deleteUserById: requestResponseWrapper(deleteUserById)
+  createUser,
+  login,
+  updateUserById,
+  getUser,
+  deleteUserById,
+  getUserById,
 }
