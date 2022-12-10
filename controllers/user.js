@@ -3,7 +3,7 @@ const { validateInput } = require("../library/utilities");
 const { createUserInput, loginInput } = require("../validators/user");
 const { BadRequestError } = require("../library/errors");
 const { comparePassword } = require("../library/passwords");
-const { createToken } = require("../library/authentication");
+const { createToken, blackList } = require("../library/authentication");
 
 async function createUser(context) {
   const userData = context.body;
@@ -29,6 +29,22 @@ async function login(context) {
   return { token };
 }
 
+
+async function logout(context) {
+  const { authorization } = context.headers;
+  if (!authorization) {
+    throw new UnauthenticatedError("Unauthenticated request. Token not provided.")
+  }
+  const tokenParts =  authorization.split(' ');
+  if (tokenParts.length !== 2 ) {
+    throw new UnauthenticatedError("Invalid token provided");
+  }
+  
+  const token = tokenParts[1];
+  await blackList(token);
+  return "Logged out successfully"
+}
+
 async function updateUserById(context) {
   return context;
 }
@@ -47,12 +63,14 @@ async function getUserById(userId) {
   }
 
   const user = await db.User.findById(userId);
+  user.password = undefined;
   return user;
 }
 
 module.exports = {
   createUser,
   login,
+  logout,
   updateUserById,
   getUser,
   deleteUserById,

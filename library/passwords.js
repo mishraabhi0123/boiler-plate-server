@@ -10,6 +10,7 @@ async function encryptPassword(password) {
 
 
 async function comparePassword(password, hash) {
+  console.log({ password, hash })
   if (!(password && hash)) {
     return false;
   }

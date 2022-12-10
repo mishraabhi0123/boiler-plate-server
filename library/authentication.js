@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const moment =  require("moment-timezone");
+const redisClient = require("../cache");
+const { BLACK_LISTED_TOKENS, TOKEN_VALIDITY } = require("../constants");
 const { UnauthorizedError } = require("./errors");
 
 function createToken(user) {
@@ -25,14 +27,18 @@ function decodePayload(token) {
 }
 
 async function isBlackListed(token) {
-
+  const blacklisted = await redisClient.GET(token);
+  return blacklisted;
 }
 
 async function blackList(token) {
-
+  await redisClient.SETEX(token, TOKEN_VALIDITY * 3600 * 24, "1");
 }
 
 module.exports = {
   createToken,
   decodePayload,
+
+  isBlackListed,
+  blackList,
 }

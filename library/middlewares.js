@@ -1,6 +1,6 @@
 const moment = require("moment-timezone");
 const { getUserById } = require("../controllers/user");
-const { decodePayload } = require("./authentication");
+const { decodePayload, isBlackListed } = require("./authentication");
 const { UnauthenticatedError, UnauthorizedError } = require("./errors");
 const { handleError } = require("./utilities");
 
@@ -17,6 +17,12 @@ async function auth(req, res, next) {
     }
     
     const token = tokenParts[1];
+
+    const tokenBlackListed = await isBlackListed(token);
+    if (tokenBlackListed) {
+      throw new UnauthorizedError("Token blacklisted.");
+    }
+
     const payload = decodePayload(token);
     const { userId, validTill } = payload;
 

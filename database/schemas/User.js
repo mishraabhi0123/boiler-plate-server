@@ -43,9 +43,11 @@ User.post('validate', async (user, next) => {
   next();
 });
 
-User.post('findOne', (user, next) => {
-  user.password = undefined;
-  next()
-})
+// User.post('findOne', (user, next) => {
+//   if (user) {
+//     user.password = undefined;
+//   }
+//   next()
+// })
 
 module.exports = User
