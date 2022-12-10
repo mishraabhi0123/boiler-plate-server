@@ -1,7 +1,7 @@
 # Boilerplate
 
 ## TODO
-- JWT invalidation
-- Rate Limiting
-- request tracing
-- Caching
+- [x] JWT invalidation
+- [ ] Rate Limiting
+- [ ] Request tracing
+- [ ] Caching
