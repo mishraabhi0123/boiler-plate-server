@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment-timezone": "^0.5.39",
     "mongoose": "^6.8.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "redis": "^4.5.1"
   }
 }

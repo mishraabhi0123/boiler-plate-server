@@ -1,6 +1,6 @@
 const express = require("express");
 
-function initBlogRoutes() {
+function initBlogRoutes(RRW) {
   const blogRouter = express.Router();
   blogRouter.get('/', (req, res) => res.send({ message: "Welcome to blog routes" }))
   
