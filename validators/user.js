@@ -1,7 +1,12 @@
 const Joi = require('joi')
 
 const createUserInput = Joi.object({
-  name: Joi.string().min(3).max(40).required(),
+  name: Joi.string().min(0).max(400).required(),
+  email: Joi.string().email().min(3).max(40).required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
+});
+
+const loginInput = Joi.object({
   email: Joi.string().email().min(3).max(40).required(),
   password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required()
 });
@@ -9,11 +14,11 @@ const createUserInput = Joi.object({
 const updateUserInput = Joi.object({
   _id: Joi.string().required(),
   name: Joi.string().min(3).max(40),
-  email: Joi.string().email().min(3).max(40),
   password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 });
 
 module.exports = {
   createUserInput,
+  loginInput,
   updateUserInput,
 }

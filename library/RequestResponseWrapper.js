@@ -1,4 +1,4 @@
-const { sanitizeErrorMessageForUser } = require("./utilities");
+const { handleError } = require("./utilities");
 
 function requestResponseWrapper(handler) {
   return async function requestHandler(req, res) {
@@ -22,12 +22,8 @@ function requestResponseWrapper(handler) {
       return res.status(200).send(response);
 
     } catch(err) {
-      const response = Object.freeze({
-        data: null,
-        status: 0,
-        error: sanitizeErrorMessageForUser(err),
-        processingTime_ms: (new Date()).getTime() - tick
-      });
+      const response = handleError(err);
+      response.processingTime_ms = (new Date()).getTime() - tick
       return res.status(err.statusCode || 500).send(response);
     }
   }

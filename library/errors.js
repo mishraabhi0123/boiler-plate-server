@@ -32,10 +32,19 @@ class BadRequestError extends NamedError {
   }
 }
 
+class NotFoundError extends NamedError {
+  constructor(message, possibleReasons = []) {
+    super(message);
+    this.message = message;
+    this.statusCode = 404;
+    this.possibleReasons = possibleReasons;
+  }
+}
 
 module.exports = {
   NamedError,
   BadRequestError,
   UnauthenticatedError,
-  UnauthorizedError, 
+  UnauthorizedError,
+  NotFoundError, 
 }

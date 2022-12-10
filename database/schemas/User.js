@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { encryptPassword } = require("../../library/passwords");
+
 const { Schema } = mongoose;
 
 const User = new Schema({
@@ -13,6 +15,7 @@ const User = new Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
     min: [5, "Email should be atleast 5 characters"],
     max: [50, "Email cannot be more than 50 characters"]
   },
@@ -33,5 +36,11 @@ const User = new Schema({
     default: new Date(),
   },
 })
+
+
+User.post('validate', async (user, next) => {
+  user.password = await encryptPassword(user.password);
+  next();
+});
 
 module.exports = User
