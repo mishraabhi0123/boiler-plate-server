@@ -1,15 +1,9 @@
+const RequestResponseContext = require("./RequestResponseContext");
 const { handleError } = require("./utilities");
 
 function requestResponseWrapper(handler) {
   return async function requestHandler(req, res) {
-    const context = Object.freeze({
-      body: req.body,
-      query: req.query,
-      params: req.params,
-      headers: req.headers,
-      ...(req.context ? req.context : {})
-    })
-
+    const context = new RequestResponseContext(req, res);
     const tick = (new Date()).getTime();
     try {
       const data = await handler(context);

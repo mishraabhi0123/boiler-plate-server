@@ -1,7 +1,7 @@
 const db = require("../database");
 const { validateInput } = require("../library/utilities");
 const { createUserInput, loginInput } = require("../validators/user");
-const { BadRequestError } = require("../library/errors");
+const { BadRequestError, UnauthenticatedError } = require("../library/errors");
 const { comparePassword } = require("../library/passwords");
 const { createToken, blackList } = require("../library/authentication");
 
@@ -26,22 +26,14 @@ async function login(context) {
     throw new BadRequestError(`Incorrect email or password`)
   }
   const token = createToken(user);
-  return { token };
+  context.setCookie('x-auth-token', token, process.env.TOKEN_VALIDITY * 24 * 3600 * 1000);
+
+  return "Logged in successfully";
 }
 
 
 async function logout(context) {
-  const { authorization } = context.headers;
-  if (!authorization) {
-    throw new UnauthenticatedError("Unauthenticated request. Token not provided.")
-  }
-  const tokenParts =  authorization.split(' ');
-  if (tokenParts.length !== 2 ) {
-    throw new UnauthenticatedError("Invalid token provided");
-  }
-  
-  const token = tokenParts[1];
-  await blackList(token);
+  context.clearCookie('x-auth-token');
   return "Logged out successfully"
 }
 

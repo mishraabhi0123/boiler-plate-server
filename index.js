@@ -4,6 +4,7 @@ const express = require("express");
 const initRoutes = require("./routes");
 const morgan = require("morgan");
 const redisClient = require("./cache");
+const cookieParser = require("cookie-parser");
 
 async function start() {
   db.connect(process.env.MONGODB_URL)
@@ -13,6 +14,7 @@ async function start() {
   .then(() => console.log("Redis client connected"))
 
   const app = express();
+  app.use(cookieParser());
   app.use(express.json());
   app.use(morgan('common'));
 
