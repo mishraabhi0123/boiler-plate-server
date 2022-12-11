@@ -2,7 +2,7 @@
 
 ## TODO
 - [x] JWT invalidation
-- [ ] Secure Cookies
+- [x] Secure Cookies
 - [ ] Request tracing
 - [ ] Rate Limiting
 - [ ] Caching
