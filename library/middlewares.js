@@ -7,16 +7,11 @@ const { handleError } = require("./utilities");
 async function auth(req, res, next) {
   const tick = (new Date()).getTime();
   try {
-    const { authorization } = req.headers;
-    if (!authorization) {
+    const token = req.cookies['x-auth-token'];
+    console.log(req.cookies);
+    if (!token) {
       throw new UnauthenticatedError("Unauthenticated request. Token not provided.")
     }
-    const tokenParts =  authorization.split(' ');
-    if (tokenParts.length !== 2 ) {
-      throw new UnauthenticatedError("Invalid token provided");
-    }
-    
-    const token = tokenParts[1];
 
     const tokenBlackListed = await isBlackListed(token);
     if (tokenBlackListed) {
