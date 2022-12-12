@@ -1,4 +1,7 @@
 require("dotenv").config();
+const overloadConsole = require("./library/overloadConsole");
+globalThis.console = overloadConsole(globalThis.console);
+
 const db = require("./database");
 const express = require("express");
 const initRoutes = require("./routes");
