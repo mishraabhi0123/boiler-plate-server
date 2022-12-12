@@ -6,3 +6,4 @@
 - [ ] Request tracing
 - [ ] Rate Limiting
 - [ ] Caching
+- [ ] Monitoring with Prometheus & Grafana

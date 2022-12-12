@@ -8,7 +8,6 @@ async function auth(req, res, next) {
   const tick = (new Date()).getTime();
   try {
     const token = req.cookies['x-auth-token'];
-    console.log(req.cookies);
     if (!token) {
       throw new UnauthenticatedError("Unauthenticated request. Token not provided.")
     }

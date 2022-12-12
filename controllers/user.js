@@ -55,7 +55,9 @@ async function getUserById(userId) {
   }
 
   const user = await db.User.findById(userId);
-  user.password = undefined;
+  if (user) {
+    user.password = undefined;
+  }
   return user;
 }
 
