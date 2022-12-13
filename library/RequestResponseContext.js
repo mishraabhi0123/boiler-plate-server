@@ -1,6 +1,7 @@
 class RequestResponseContext {
   #res;
   #req;
+  #logger;
 
   constructor(req, res) {
     this.#res = res;

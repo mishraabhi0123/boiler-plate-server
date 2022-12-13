@@ -6,7 +6,8 @@ const {
   updateUserById, 
   deleteUserById, 
   login, 
-  logout
+  logout,
+  startSession,
 } = require("../controllers/user");
 
 
@@ -14,6 +15,7 @@ function initUserRoutes(RRW) {
   const userRouter = express.Router();
   userRouter.post('/createUser', RRW(createUser));
   userRouter.post('/login', RRW(login));
+  userRouter.post('/startSession', auth, RRW(startSession));
   userRouter.get('/logout', auth, RRW(logout));
   userRouter.get('/getUser', auth, RRW(getUser));
   userRouter.put('/updateUser', auth, RRW(updateUserById));
