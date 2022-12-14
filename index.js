@@ -11,10 +11,20 @@ const cookieParser = require("cookie-parser");
 
 async function start() {
   db.connect(process.env.MONGODB_URL)
-  .then(() => console.log("Database connected"))
+  .then(() => console.log("Connected to database"))
+  .catch((err) => {
+    console.log("Error while connecting to database");
+    console.log(err);
+    process.exit(1);
+  })
 
   redisClient.connect()
-  .then(() => console.log("Redis client connected"))
+  .then(() => console.log('Connected to redis client'))
+  .catch((err) => {
+    console.log("Error while connecting to redis client");
+    console.log(err);
+    process.exit(1);
+  })
 
   const app = express();
   app.use(cookieParser());
